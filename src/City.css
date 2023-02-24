@@ -1,0 +1,21 @@
+.city{
+    text-align: center;
+    background-color: yellow;
+    color: black;
+}
+.content{
+    text-align: center;
+}
+
+.btn{
+    justify-self: center;
+    margin:10px ;
+    background-color: black;
+    color: white;
+}
+
+.search{
+    margin:10px;
+    border-radius: 2px;
+    color:olive
+}
