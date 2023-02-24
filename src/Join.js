@@ -33,6 +33,7 @@ const Join = () => {
   return (
     
     <div>
+    <h1>Select a country</h1>
    
 <select onChange={handleSelectedCountry} id="" name={country}>{country.map((val,index)=><option key={index} value={val.name}>{val.name}</option>)}</select>
 <button onClick={()=>{navigate(`City/${selectedCountry}`) 

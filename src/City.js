@@ -6,7 +6,10 @@ function City() {
   const navigate = useNavigate();
   const { name } = useParams();
   const [data, setData] = useState([]);
-  const [searchInput, setSearchInput] = useState("");
+  const [filteredResults, setFilteredResults] = useState([]);
+  const [searchInput, setSearchInput] = useState('');
+  const [err,setErr]=useState("")
+  const arr=[];
   useEffect(() => {
     fetch("https://countriesnow.space/api/v0.1/countries/cities", {
       method: "POST",
@@ -17,35 +20,50 @@ function City() {
         "Content-type": "application/json; charset=UTF-8",
       },
     })
-      .then((response) => response.json())
-      .then((res) => setData(res.data))
-      .then((json) => console.log(json));
+    .then((res) => res.json())
+      .then((res) => {
+        setData(res.data)
+      })
+      .catch(err=>setErr(err))
   }, []);
 
-  const handleChange = (e) => {
-    setSearchInput(e.target.value);
-  };
 
-  if (searchInput.length > 0) {
-    data.filter((ele) => {
-      ele.name.match(searchInput);
-    });
+  const searchItems = (searchValue) => {
+    setSearchInput(searchValue)
+    if (searchValue) {
+        const filteredData = data.filter((item) => {
+            return item.toLowerCase().includes(searchInput.toLowerCase())
+        })
+        setFilteredResults(filteredData)
+    }
+    else{
+        setFilteredResults(data)
+    }
+    console.log(filteredResults)
   }
-
-  console.log(data);
   return (
     <>
       <div>{name}</div>
       <div>City Name</div>
+      {/* <input type="search" placeholder="Search here" onChange={handleChange} /> */}
 
-      <input
-        type="search"
-        placeholder="Search here"
-        onChange={handleChange}
-        value={searchInput}
-      />
+     
 
-      {/* <ul name={data}>{data.length?data.map((val)=><li>{val}</li>):"data not found"}</ul> */}
+
+      <input type ='search'
+                placeholder='Search...'
+                onChange={(e) => searchItems(e.target.value)}
+            />
+             <ul>{filteredResults?.map((val) => <li>{val}</li>)}</ul> 
+
+      <form>
+      
+       
+    
+      </form>
+    
+      
+      
       <button
         onClick={() => {
           navigate(`/`);
@@ -53,8 +71,12 @@ function City() {
       >
         Back to Country
       </button>
+      <h1>{err}</h1>
     </>
   );
 }
 
+
 export default City;
+
+
